@@ -40,5 +40,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.popover.show(relativeTo: statusBarButton.bounds, of: statusBarButton, preferredEdge: .minY)
         }
     }
+
+    func applicationWillResignActive(_ notification: Notification) {
+
+        if self.popover.isShown {
+            self.popover.close()
+        }
+    }
 }
 
