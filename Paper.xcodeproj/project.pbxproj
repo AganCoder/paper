@@ -12,6 +12,7 @@
 		8F5423E324DC42D5007C5B45 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F5423E224DC42D5007C5B45 /* Assets.xcassets */; };
 		8F5423E624DC42D5007C5B45 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F5423E424DC42D5007C5B45 /* Main.storyboard */; };
 		8FBC234924E0497D0037D44E /* MainPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBC234824E0497D0037D44E /* MainPopoverViewController.swift */; };
+		8FBC235924E151760037D44E /* NSColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBC235824E151760037D44E /* NSColor+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		8F5423E724DC42D5007C5B45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8F5423E824DC42D5007C5B45 /* Paper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Paper.entitlements; sourceTree = "<group>"; };
 		8FBC234824E0497D0037D44E /* MainPopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPopoverViewController.swift; sourceTree = "<group>"; };
+		8FBC235824E151760037D44E /* NSColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSColor+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 				8F5423E724DC42D5007C5B45 /* Info.plist */,
 				8F5423E824DC42D5007C5B45 /* Paper.entitlements */,
 				8FBC234824E0497D0037D44E /* MainPopoverViewController.swift */,
+				8FBC235824E151760037D44E /* NSColor+Extension.swift */,
 			);
 			path = Paper;
 			sourceTree = "<group>";
@@ -138,6 +141,7 @@
 			files = (
 				8FBC234924E0497D0037D44E /* MainPopoverViewController.swift in Sources */,
 				8F5423E124DC42D3007C5B45 /* ViewController.swift in Sources */,
+				8FBC235924E151760037D44E /* NSColor+Extension.swift in Sources */,
 				8F5423DF24DC42D3007C5B45 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
