@@ -28,6 +28,9 @@ class MainPopoverViewController: NSViewController {
         debugPrint("save")
     }
 
+    @objc func reloadButtonDidTapped(sender: NSButton) {
+        debugPrint("reload")
+    }
 
     private func initSubviews() {
 
@@ -44,6 +47,11 @@ class MainPopoverViewController: NSViewController {
         setting.bezelStyle = .rounded
         setting.isBordered = false
 
+        let reload = NSButton(image: NSImage(named: "reload_button40x40")!, target: self, action: #selector(reloadButtonDidTapped(sender:)))
+        reload.setButtonType(NSButton.ButtonType.pushOnPushOff)
+        reload.bezelStyle = .rounded
+        reload.isBordered = false
+
         let tableView = NSTableView()
         tableView.delegate = self
         tableView.dataSource = self
@@ -53,6 +61,7 @@ class MainPopoverViewController: NSViewController {
         view.addSubview(brand)
         view.addSubview(setting)
         view.addSubview(save)
+        view.addSubview(reload)
 
         view.translatesAutoresizingMaskIntoConstraints = false
         view.widthAnchor.constraint(equalToConstant: 285).isActive = true
@@ -82,8 +91,12 @@ class MainPopoverViewController: NSViewController {
         setting.widthAnchor.constraint(equalToConstant: 32).isActive = true
         setting.heightAnchor.constraint(equalToConstant: 32).isActive = true
 
-        // tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        // tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        reload.translatesAutoresizingMaskIntoConstraints = false
+        reload.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        reload.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        reload.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        reload.heightAnchor.constraint(equalToConstant: 50).isActive = true
+
     }
 
     override func viewWillAppear() {
