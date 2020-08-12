@@ -7,6 +7,8 @@
 //
 
 import Cocoa
+import Alamofire
+import Kingfisher
 
 class MainPopoverViewController: NSViewController {
 
@@ -18,6 +20,8 @@ class MainPopoverViewController: NSViewController {
         super.viewDidLoad()
 
         initSubviews()
+
+        AF.request("")
     }
 
     @objc func settingButtonDidTapped(sender: NSButton) {
