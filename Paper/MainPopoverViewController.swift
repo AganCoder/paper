@@ -20,8 +20,6 @@ class MainPopoverViewController: NSViewController {
         super.viewDidLoad()
 
         initSubviews()
-
-        AF.request("")
     }
 
     @objc func settingButtonDidTapped(sender: NSButton) {
