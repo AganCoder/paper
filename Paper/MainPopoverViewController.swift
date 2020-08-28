@@ -12,6 +12,8 @@ import Kingfisher
 
 class MainPopoverViewController: NSViewController {
 
+    var columns: Columns = []
+
     override func loadView() {
         self.view = NSView()
     }
@@ -22,7 +24,13 @@ class MainPopoverViewController: NSViewController {
         initSubviews()
 
         AF.request("https://service.paper.meiyuan.in/api/v2/columns").responseJSON { (response) in
-            debugPrint(response)
+            guard let data = response.data, response.error == nil else {
+                return
+            }
+            let decoder = JSONDecoder()
+            if case let .success(columns) = Result(catching: { try decoder.decode(Columns.self, from: data) }) {
+                self.columns = columns
+            }
         }
     }
 

@@ -88,8 +88,3 @@ http://paperimg.meiyuan.in/photo-1596415524580-7426d86a836a?imageView2/0/w/5120/
 
 https://service.paper.meiyuan.in/api/v2/photos/download/W04KYJ-rCeg
 
-## Todo:
-
-1. 如何配置系统
-2. 鼠标事件 assign 
-3. NSPopover 的事件
