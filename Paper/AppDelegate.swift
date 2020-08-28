@@ -29,14 +29,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         popover.contentSize = CGSize(width: 285, height: 600)
         popover.contentViewController = MainPopoverViewController()
 
-//        for screen in NSScreen.screens {
-//            let url = NSWorkspace.shared.desktopImageURL(for: screen)
-//            debugPrint(url)
-//        }
-//
-//        let url = NSWorkspace.shared.desktopImageURL(for: NSScreen.main!)
-//        debugPrint(url)
-
+        NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseUp, .rightMouseUp] ) { [weak self] _ in
+            if let isShown = self?.popover.isShown, isShown {
+                self?.popover.close()
+            }
+        }
     }
 
     @objc private func onStatusItemDidClicked(_ statusBarButton: NSStatusBarButton) {
