@@ -24,19 +24,27 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.button?.target = self
         statusItem.button?.action = #selector(onStatusItemDidClicked(_:))
 
-        popover.behavior = .transient
+        popover.behavior = .semitransient
         popover.animates = true
         popover.contentSize = CGSize(width: 285, height: 600)
-        popover.contentViewController =  MainPopoverViewController()
+        popover.contentViewController = MainPopoverViewController()
+
+//        for screen in NSScreen.screens {
+//            let url = NSWorkspace.shared.desktopImageURL(for: screen)
+//            debugPrint(url)
+//        }
+//
+//        let url = NSWorkspace.shared.desktopImageURL(for: NSScreen.main!)
+//        debugPrint(url)
 
     }
 
     @objc private func onStatusItemDidClicked(_ statusBarButton: NSStatusBarButton) {
 
-        debugPrint(#function)
-
         if !self.popover.isShown {
             self.popover.show(relativeTo: statusBarButton.bounds, of: statusBarButton, preferredEdge: .minY)
+        } else {
+            self.popover.close()
         }
     }
 

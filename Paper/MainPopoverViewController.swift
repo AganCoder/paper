@@ -20,6 +20,10 @@ class MainPopoverViewController: NSViewController {
         super.viewDidLoad()
 
         initSubviews()
+
+        AF.request("https://service.paper.meiyuan.in/api/v2/columns").responseJSON { (response) in
+            debugPrint(response)
+        }
     }
 
     @objc func settingButtonDidTapped(sender: NSButton) {
