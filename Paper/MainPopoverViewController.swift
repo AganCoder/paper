@@ -194,20 +194,6 @@ extension MainPopoverViewController: NSTableViewDelegate, NSTableViewDataSource 
         return NSView()
     }
 
-    func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
-
-        return nil
-    }
-
-    func tableView(_ tableView: NSTableView, willDisplayCell cell: Any, for tableColumn: NSTableColumn?, row: Int) {
-        debugPrint(#function)
-    }
-
-    func tableView(_ tableView: NSTableView, shouldEdit tableColumn: NSTableColumn?, row: Int) -> Bool {
-        debugPrint(#function)
-        return false
-    }
-
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         return 168.0
     }
