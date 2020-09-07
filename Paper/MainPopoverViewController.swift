@@ -12,7 +12,15 @@ import Kingfisher
 
 class MainPopoverViewController: NSViewController {
 
-    var columns: Columns = []
+    var columns: Columns = [] {
+        didSet {
+            if self.columns != oldValue {
+                self.refreshCategoryView()
+            }
+        }
+    }
+
+    private var categoryStackView: NSStackView!
 
     override func loadView() {
         self.view = NSView()
@@ -29,9 +37,29 @@ class MainPopoverViewController: NSViewController {
             }
             let decoder = JSONDecoder()
             if case let .success(columns) = Result(catching: { try decoder.decode(Columns.self, from: data) }) {
-                self.columns = columns
+                self.columns = columns.filter { $0.available ?? false }
             }
         }
+    }
+
+    private func refreshCategoryView() {
+        debugPrint(#function)
+
+        // first remove exist arrangedSubView
+        for view in self.categoryStackView.subviews {
+            self.categoryStackView.removeArrangedSubview(view)
+            view.removeFromSuperview()
+        }
+
+        for (index, value) in self.columns.enumerated() where value.available ?? false {
+            let btn = NSButton(title: value.title!, target: self, action: #selector(categoryButtonDidTapped(sender:)))
+            btn.tag = index
+            self.categoryStackView .addArrangedSubview(btn)
+        }
+    }
+
+    @objc func categoryButtonDidTapped(sender: NSButton) {
+        debugPrint(sender.tag)
     }
 
     @objc func settingButtonDidTapped(sender: NSButton) {
@@ -66,26 +94,44 @@ class MainPopoverViewController: NSViewController {
         reload.bezelStyle = .rounded
         reload.isBordered = false
 
+        let stackView = NSStackView()
+        stackView.alignment = .centerY
+        stackView.orientation = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.spacing    = 10
+        self.categoryStackView = stackView
+
+        let scrollView = NSScrollView()
+
         let tableView = NSTableView()
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.backgroundColor = .red
+        tableView.backgroundColor = NSColor.main
+        tableView.register(NSNib(nibNamed: "PaperTableCellView", bundle: nil), forIdentifier: NSUserInterfaceItemIdentifier(rawValue: "PaperTableCellView"))
+        tableView.headerView = nil
 
-        view.addSubview(tableView)
+        let column = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: "rsenjoyer.github.io.Paper"))
+
+        tableView.addTableColumn(column)
+
+        scrollView.documentView = tableView
+
+        view.addSubview(scrollView)
         view.addSubview(brand)
         view.addSubview(setting)
         view.addSubview(save)
         view.addSubview(reload)
+        view.addSubview(stackView)
 
         view.translatesAutoresizingMaskIntoConstraints = false
         view.widthAnchor.constraint(equalToConstant: 285).isActive = true
         view.heightAnchor.constraint(equalToConstant: 600).isActive = true
 
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        tableView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        tableView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        scrollView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        scrollView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        scrollView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
 
         brand.translatesAutoresizingMaskIntoConstraints = false
         brand.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -94,14 +140,14 @@ class MainPopoverViewController: NSViewController {
         brand.heightAnchor.constraint(equalToConstant: 94).isActive = true
 
         save.translatesAutoresizingMaskIntoConstraints = false
-        save.centerYAnchor.constraint(equalTo: brand.centerYAnchor).isActive = true
+        save.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
         save.rightAnchor.constraint(equalTo: setting.leftAnchor, constant: 0).isActive = true
         save.widthAnchor.constraint(equalToConstant: 32).isActive = true
         save.heightAnchor.constraint(equalToConstant: 32).isActive = true
 
         setting.translatesAutoresizingMaskIntoConstraints = false
         setting.centerYAnchor.constraint(equalTo: save.centerYAnchor).isActive = true
-        setting.rightAnchor.constraint(equalTo: brand.rightAnchor, constant: -16).isActive = true
+        setting.rightAnchor.constraint(equalTo: brand.rightAnchor, constant: -10).isActive = true
         setting.widthAnchor.constraint(equalToConstant: 32).isActive = true
         setting.heightAnchor.constraint(equalToConstant: 32).isActive = true
 
@@ -111,6 +157,11 @@ class MainPopoverViewController: NSViewController {
         reload.widthAnchor.constraint(equalToConstant: 50).isActive = true
         reload.heightAnchor.constraint(equalToConstant: 50).isActive = true
 
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.leftAnchor.constraint(equalTo: brand.leftAnchor).isActive = true
+        stackView.rightAnchor.constraint(equalTo: brand.rightAnchor).isActive = true
+        stackView.bottomAnchor.constraint(equalTo: brand.bottomAnchor, constant: -4).isActive = true
+        stackView.heightAnchor.constraint(equalToConstant: 32).isActive = true
     }
 
     override func viewWillAppear() {
@@ -124,18 +175,44 @@ class MainPopoverViewController: NSViewController {
 
         // set background color
         self.view.wantsLayer = true
-        self.view.layer?.backgroundColor = NSColor.background.cgColor
+        self.view.layer?.backgroundColor = NSColor.main.cgColor
     }
 
 }
 
-extension MainPopoverViewController: NSTableViewDelegate {
-
-}
-
-extension MainPopoverViewController: NSTableViewDataSource {
+extension MainPopoverViewController: NSTableViewDelegate, NSTableViewDataSource {
 
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return 0
+        return 10
+    }
+
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+
+        if let cellView = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier("PaperTableCellView"), owner: self) {
+            return cellView
+        }
+        return NSView()
+    }
+
+    func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
+
+        return nil
+    }
+
+    func tableView(_ tableView: NSTableView, willDisplayCell cell: Any, for tableColumn: NSTableColumn?, row: Int) {
+        debugPrint(#function)
+    }
+
+    func tableView(_ tableView: NSTableView, shouldEdit tableColumn: NSTableColumn?, row: Int) -> Bool {
+        debugPrint(#function)
+        return false
+    }
+
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+        return 168.0
+    }
+
+    func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
+        return false
     }
 }

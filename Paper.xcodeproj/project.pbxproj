@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		8F5423DF24DC42D3007C5B45 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5423DE24DC42D3007C5B45 /* AppDelegate.swift */; };
-		8F5423E124DC42D3007C5B45 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5423E024DC42D3007C5B45 /* ViewController.swift */; };
 		8F5423E324DC42D5007C5B45 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F5423E224DC42D5007C5B45 /* Assets.xcassets */; };
 		8F5423E624DC42D5007C5B45 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F5423E424DC42D5007C5B45 /* Main.storyboard */; };
 		8F7025A124F7A2A5001BF38E /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F70259724F7A232001BF38E /* Alamofire.framework */; };
@@ -18,6 +17,8 @@
 		8FA72C7124F8FF8C004129A2 /* Column.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA72C7024F8FF8C004129A2 /* Column.swift */; };
 		8FBC234924E0497D0037D44E /* MainPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBC234824E0497D0037D44E /* MainPopoverViewController.swift */; };
 		8FBC235924E151760037D44E /* NSColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBC235824E151760037D44E /* NSColor+Extension.swift */; };
+		8FC80EBB25023D0C00B90EEE /* PaperTableCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8FC80EBA25023D0C00B90EEE /* PaperTableCellView.xib */; };
+		8FC80EBD25023D1700B90EEE /* PaperTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC80EBC25023D1700B90EEE /* PaperTableCellView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,7 +112,6 @@
 /* Begin PBXFileReference section */
 		8F5423DB24DC42D3007C5B45 /* Paper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Paper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F5423DE24DC42D3007C5B45 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		8F5423E024DC42D3007C5B45 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		8F5423E224DC42D5007C5B45 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8F5423E524DC42D5007C5B45 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8F5423E724DC42D5007C5B45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -121,6 +121,8 @@
 		8FA72C7024F8FF8C004129A2 /* Column.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Column.swift; sourceTree = "<group>"; };
 		8FBC234824E0497D0037D44E /* MainPopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPopoverViewController.swift; sourceTree = "<group>"; };
 		8FBC235824E151760037D44E /* NSColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSColor+Extension.swift"; sourceTree = "<group>"; };
+		8FC80EBA25023D0C00B90EEE /* PaperTableCellView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PaperTableCellView.xib; sourceTree = "<group>"; };
+		8FC80EBC25023D1700B90EEE /* PaperTableCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaperTableCellView.swift; sourceTree = "<group>"; };
 		8FE6926524E2EC4000867A44 /* API.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = API.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -159,13 +161,14 @@
 			isa = PBXGroup;
 			children = (
 				8F5423DE24DC42D3007C5B45 /* AppDelegate.swift */,
-				8F5423E024DC42D3007C5B45 /* ViewController.swift */,
 				8F5423E224DC42D5007C5B45 /* Assets.xcassets */,
 				8F5423E424DC42D5007C5B45 /* Main.storyboard */,
 				8F5423E724DC42D5007C5B45 /* Info.plist */,
 				8F5423E824DC42D5007C5B45 /* Paper.entitlements */,
 				8FBC234824E0497D0037D44E /* MainPopoverViewController.swift */,
 				8FBC235824E151760037D44E /* NSColor+Extension.swift */,
+				8FC80EBC25023D1700B90EEE /* PaperTableCellView.swift */,
+				8FC80EBA25023D0C00B90EEE /* PaperTableCellView.xib */,
 				8FE6926524E2EC4000867A44 /* API.md */,
 				8FA72C7024F8FF8C004129A2 /* Column.swift */,
 			);
@@ -360,6 +363,7 @@
 			files = (
 				8F5423E324DC42D5007C5B45 /* Assets.xcassets in Resources */,
 				8F5423E624DC42D5007C5B45 /* Main.storyboard in Resources */,
+				8FC80EBB25023D0C00B90EEE /* PaperTableCellView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,9 +374,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8FC80EBD25023D1700B90EEE /* PaperTableCellView.swift in Sources */,
 				8FBC234924E0497D0037D44E /* MainPopoverViewController.swift in Sources */,
 				8FA72C7124F8FF8C004129A2 /* Column.swift in Sources */,
-				8F5423E124DC42D3007C5B45 /* ViewController.swift in Sources */,
 				8FBC235924E151760037D44E /* NSColor+Extension.swift in Sources */,
 				8F5423DF24DC42D3007C5B45 /* AppDelegate.swift in Sources */,
 			);
