@@ -11,15 +11,17 @@ import Cocoa
 class PaperTableCellView: NSTableCellView {
 
     @IBOutlet weak var backgroundImageView: NSImageView!
+
     @IBOutlet weak var setWallPaperButton: NSButton! {
         didSet {
             setWallPaperButton.wantsLayer = true
             setWallPaperButton.layer?.cornerRadius = setWallPaperButton.bounds.height * 0.5
             setWallPaperButton.layer?.masksToBounds = true
-            setWallPaperButton.layer?.backgroundColor = NSColor.green.cgColor
         }
     }
+
     @IBOutlet weak var authorLinkButton: NSButton!
+
     @IBOutlet weak var pixelIndicatorImageView: NSImageView!
 
     private var trackingArea: NSTrackingArea?
@@ -42,14 +44,24 @@ class PaperTableCellView: NSTableCellView {
 
     override func mouseMoved(with event: NSEvent) {
 
+        let attributedTitle = NSMutableAttributedString(string: self.authorLinkButton.title)
+        let range = NSRange(location: 0, length: attributedTitle.length)
+        attributedTitle.addAttribute(.foregroundColor,value: NSColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 0.3), range: range)
+
         setWallPaperButton.layer?.backgroundColor = NSColor(red: 0, green: 0, blue: 0, alpha: 0.5).cgColor
 
         let point = self.convert(event.locationInWindow, from: nil)
 
+
+
         if setWallPaperButton.frame.contains(point) {
             setWallPaperButton.layer?.backgroundColor = NSColor(red: 0, green: 0, blue: 0, alpha: 0.3).cgColor
         } else if authorLinkButton.frame.contains(point) {
+            attributedTitle.addAttribute(.underlineColor, value: NSColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 0.3), range: range)
+            attributedTitle.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: range)
         }
+
+        self.authorLinkButton.attributedTitle = attributedTitle
     }
 
     override func updateTrackingAreas() {

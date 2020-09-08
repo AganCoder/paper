@@ -29,20 +29,20 @@
                     </constraints>
                     <buttonCell key="cell" type="inline" title="  Set Wallpaper" bezelStyle="inline" image="set wallpaper15x14" imagePosition="leading" alignment="center" imageScaling="proportionallyDown" inset="2" id="nIP-RF-Mmk">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="systemMedium" size="11"/>
+                        <font key="font" metaFont="system"/>
                     </buttonCell>
                     <color key="contentTintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                 </button>
                 <button hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xkc-Y9-MLw">
-                    <rect key="frame" x="95" y="12" width="96" height="14"/>
+                    <rect key="frame" x="95" y="12" width="95" height="14"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="14" id="UbS-od-0Yh"/>
                     </constraints>
-                    <buttonCell key="cell" type="recessed" title="Link Link Link Link " bezelStyle="recessed" image="buttonCell:OOG-Tb-e0e:image" imagePosition="overlaps" alignment="center" inset="2" id="OOG-Tb-e0e">
+                    <buttonCell key="cell" type="recessed" title="©NASA / Unsplash" bezelStyle="recessed" image="buttonCell:OOG-Tb-e0e:image" imagePosition="overlaps" alignment="center" inset="2" id="OOG-Tb-e0e">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                         <font key="font" metaFont="system" size="10"/>
                     </buttonCell>
-                    <color key="contentTintColor" red="1" green="1" blue="1" alpha="0.40000000000000002" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <color key="contentTintColor" red="1" green="1" blue="0.94117647058823528" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
                 </button>
             </subviews>
             <constraints>
