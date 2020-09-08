@@ -30,38 +30,48 @@ class PaperTableCellView: NSTableCellView {
         super.draw(dirtyRect)
     }
 
+    private func mouseEvent(for isEntered: Bool) {
+        self.setWallPaperButton.isHidden = !isEntered
+        self.authorLinkButton.isHidden = !isEntered
+        self.pixelIndicatorImageView.isHidden = !isEntered
+    }
+
     override func mouseEntered(with event: NSEvent) {
-        self.setWallPaperButton.isHidden = false
-        self.authorLinkButton.isHidden = false
-        self.pixelIndicatorImageView.isHidden = false
+        mouseEvent(for: true)
     }
 
     override func mouseExited(with event: NSEvent) {
-        self.setWallPaperButton.isHidden = true
-        self.authorLinkButton.isHidden = true
-        self.pixelIndicatorImageView.isHidden = true
+        mouseEvent(for: false)
     }
 
     override func mouseMoved(with event: NSEvent) {
 
-        let attributedTitle = NSMutableAttributedString(string: self.authorLinkButton.title)
-        let range = NSRange(location: 0, length: attributedTitle.length)
-        attributedTitle.addAttribute(.foregroundColor,value: NSColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 0.3), range: range)
+        func mouseHoverAtSetWallPaperButton(at point: CGPoint) {
 
-        setWallPaperButton.layer?.backgroundColor = NSColor(red: 0, green: 0, blue: 0, alpha: 0.5).cgColor
-
-        let point = self.convert(event.locationInWindow, from: nil)
-
-
-
-        if setWallPaperButton.frame.contains(point) {
-            setWallPaperButton.layer?.backgroundColor = NSColor(red: 0, green: 0, blue: 0, alpha: 0.3).cgColor
-        } else if authorLinkButton.frame.contains(point) {
-            attributedTitle.addAttribute(.underlineColor, value: NSColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 0.3), range: range)
-            attributedTitle.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: range)
+            if setWallPaperButton.frame.contains(point) {
+                setWallPaperButton.layer?.backgroundColor = NSColor(red: 0, green: 0, blue: 0, alpha: 0.3).cgColor
+            } else {
+                setWallPaperButton.layer?.backgroundColor = NSColor(red: 0, green: 0, blue: 0, alpha: 0.5).cgColor
+            }
         }
 
-        self.authorLinkButton.attributedTitle = attributedTitle
+        func mouseHoverAtAuthorLinkButton(at point: CGPoint) {
+
+            let attributedTitle = NSMutableAttributedString(string: self.authorLinkButton.title)
+            let range = NSRange(location: 0, length: attributedTitle.length)
+            attributedTitle.addAttribute(.foregroundColor, value: NSColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 0.3), range: range)
+
+            if authorLinkButton.frame.contains(point) {
+                attributedTitle.addAttribute(.underlineColor, value: NSColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 0.3), range: range)
+                attributedTitle.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: range)
+            }
+
+            self.authorLinkButton.attributedTitle = attributedTitle
+        }
+
+        let point = self.convert(event.locationInWindow, from: nil)
+        mouseHoverAtSetWallPaperButton(at: point)
+        mouseHoverAtAuthorLinkButton(at: point)
     }
 
     override func updateTrackingAreas() {
