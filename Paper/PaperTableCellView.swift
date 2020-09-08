@@ -24,12 +24,6 @@ class PaperTableCellView: NSTableCellView {
 
     @IBOutlet weak var pixelIndicatorImageView: NSImageView!
 
-    private var trackingArea: NSTrackingArea?
-
-    override func draw(_ dirtyRect: NSRect) {
-        super.draw(dirtyRect)
-    }
-
     private func mouseEvent(for isEntered: Bool) {
         self.setWallPaperButton.isHidden = !isEntered
         self.authorLinkButton.isHidden = !isEntered
@@ -77,11 +71,8 @@ class PaperTableCellView: NSTableCellView {
     override func updateTrackingAreas() {
         super.updateTrackingAreas()
 
-        if trackingArea == nil {
-            trackingArea = NSTrackingArea(rect: .zero, options: [.inVisibleRect, .activeAlways, .mouseEnteredAndExited, .mouseMoved], owner: self, userInfo: nil)
-        }
-
-        if let trackingArea = trackingArea, !self.trackingAreas.contains(trackingArea) {
+        let trackingArea = NSTrackingArea(rect: .zero, options: [.inVisibleRect, .activeAlways, .mouseEnteredAndExited, .mouseMoved], owner: self, userInfo: nil)
+        if !self.trackingAreas.contains(trackingArea) {
             self.addTrackingArea(trackingArea)
         }
     }
