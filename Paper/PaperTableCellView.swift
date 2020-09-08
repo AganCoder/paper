@@ -11,7 +11,14 @@ import Cocoa
 class PaperTableCellView: NSTableCellView {
 
     @IBOutlet weak var backgroundImageView: NSImageView!
-    @IBOutlet weak var setWallPaperButton: NSButton!
+    @IBOutlet weak var setWallPaperButton: NSButton! {
+        didSet {
+            setWallPaperButton.wantsLayer = true
+            setWallPaperButton.layer?.cornerRadius = setWallPaperButton.bounds.height * 0.5
+            setWallPaperButton.layer?.masksToBounds = true
+            setWallPaperButton.layer?.backgroundColor = NSColor.green.cgColor
+        }
+    }
     @IBOutlet weak var authorLinkButton: NSButton!
     @IBOutlet weak var pixelIndicatorImageView: NSImageView!
 
@@ -34,14 +41,14 @@ class PaperTableCellView: NSTableCellView {
     }
 
     override func mouseMoved(with event: NSEvent) {
+
+        setWallPaperButton.layer?.backgroundColor = NSColor(red: 0, green: 0, blue: 0, alpha: 0.5).cgColor
+
         let point = self.convert(event.locationInWindow, from: nil)
 
-        debugPrint(point)
-
         if setWallPaperButton.frame.contains(point) {
-            debugPrint("点击了按钮")
+            setWallPaperButton.layer?.backgroundColor = NSColor(red: 0, green: 0, blue: 0, alpha: 0.3).cgColor
         } else if authorLinkButton.frame.contains(point) {
-            debugPrint("点击了link")
         }
     }
 

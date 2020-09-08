@@ -22,23 +22,23 @@
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="4K_icon_normal24x24" id="eD6-qz-ZaD"/>
                 </imageView>
                 <button hidden="YES" verticalHuggingPriority="750" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tkD-mO-5fC">
-                    <rect key="frame" x="72" y="67" width="142" height="33"/>
+                    <rect key="frame" x="72" y="68" width="142" height="32"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="32" id="4PC-2i-g5e"/>
                         <constraint firstAttribute="width" constant="142" id="EKw-vb-zl2"/>
                     </constraints>
-                    <buttonCell key="cell" type="inline" title="Set Wallpaper" bezelStyle="inline" image="set wallpaper -icon15x12" imagePosition="leading" alignment="center" borderStyle="border" inset="2" id="nIP-RF-Mmk">
+                    <buttonCell key="cell" type="inline" title="  Set Wallpaper" bezelStyle="inline" image="set wallpaper15x14" imagePosition="leading" alignment="center" imageScaling="proportionallyDown" inset="2" id="nIP-RF-Mmk">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="smallSystemBold"/>
+                        <font key="font" metaFont="systemMedium" size="11"/>
                     </buttonCell>
                     <color key="contentTintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                 </button>
                 <button hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xkc-Y9-MLw">
-                    <rect key="frame" x="90" y="11" width="106" height="15"/>
+                    <rect key="frame" x="95" y="12" width="96" height="14"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="14" id="UbS-od-0Yh"/>
                     </constraints>
-                    <buttonCell key="cell" type="recessed" title="Link Link Link Link " bezelStyle="recessed" image="buttonCell:OOG-Tb-e0e:image" imagePosition="overlaps" alignment="center" borderStyle="border" inset="2" id="OOG-Tb-e0e">
+                    <buttonCell key="cell" type="recessed" title="Link Link Link Link " bezelStyle="recessed" image="buttonCell:OOG-Tb-e0e:image" imagePosition="overlaps" alignment="center" inset="2" id="OOG-Tb-e0e">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                         <font key="font" metaFont="system" size="10"/>
                     </buttonCell>
@@ -333,6 +333,6 @@ KeYp+yoAKgQqBioIKgoqEyoYKh4qJiooKioqLCouO5o7nzusO687vDvBO8k7zDvRO9kAAAAAAAACAQAA
 AAAAAABnAAAAAAAAAAAAAAAAAAA73A
 </mutableData>
         </image>
-        <image name="set wallpaper -icon15x12" width="15" height="12"/>
+        <image name="set wallpaper15x14" width="15" height="14"/>
     </resources>
 </document>
