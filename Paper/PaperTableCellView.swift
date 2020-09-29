@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Kingfisher
 
 class PaperTableCellView: NSTableCellView {
 
@@ -28,6 +29,15 @@ class PaperTableCellView: NSTableCellView {
         self.setWallPaperButton.isHidden = !isEntered
         self.authorLinkButton.isHidden = !isEntered
         self.pixelIndicatorImageView.isHidden = !isEntered
+    }
+
+    var paper: Paper? {
+        didSet {
+            debugPrint(paper)
+            if let samll = paper?.urls?["small"], let url = URL(string: samll) {
+                self.backgroundImageView.kf.setImage(with: url)
+            }
+        }
     }
 
     override func mouseEntered(with event: NSEvent) {

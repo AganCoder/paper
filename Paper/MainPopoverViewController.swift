@@ -19,6 +19,13 @@ class MainPopoverViewController: NSViewController {
             }
         }
     }
+    var tableView: NSTableView!
+
+    var papers: Papers = [] {
+        didSet {
+            self.tableView.reloadData()
+        }
+    }
 
     private var categoryStackView: NSStackView!
 
@@ -40,6 +47,18 @@ class MainPopoverViewController: NSViewController {
                 self.columns = columns.filter { $0.available ?? false }
             }
         }
+
+        AF.request("https://service.paper.meiyuan.in/api/v2/columns/flow/5efb6009ae089fd1b96ded19?page=1&per_page=20").responseJSON { (response) in
+            guard let data = response.data, response.error == nil else {
+                return
+            }
+
+            let decoder = JSONDecoder()
+            if case let .success(papers) = Result(catching: { try decoder.decode(Papers.self, from: data) }) {
+                self.papers = papers
+            }
+        }
+
     }
 
     private func refreshCategoryView() {
@@ -109,6 +128,8 @@ class MainPopoverViewController: NSViewController {
         tableView.backgroundColor = NSColor.main
         tableView.register(NSNib(nibNamed: "PaperTableCellView", bundle: nil), forIdentifier: NSUserInterfaceItemIdentifier(rawValue: "PaperTableCellView"))
         tableView.headerView = nil
+
+        self.tableView = tableView
 
         let column = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: "rsenjoyer.github.io.Paper"))
 
@@ -183,12 +204,15 @@ class MainPopoverViewController: NSViewController {
 extension MainPopoverViewController: NSTableViewDelegate, NSTableViewDataSource {
 
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return 10
+        return self.papers.count
     }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
 
-        if let cellView = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier("PaperTableCellView"), owner: self) {
+        if let cellView = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier("PaperTableCellView"), owner: self) as? PaperTableCellView {
+
+            cellView.paper = self.papers[row]
+
             return cellView
         }
         return NSView()
