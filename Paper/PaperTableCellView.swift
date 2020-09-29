@@ -36,6 +36,8 @@ class PaperTableCellView: NSTableCellView {
             debugPrint(paper)
             if let samll = paper?.urls?["small"], let url = URL(string: samll) {
                 self.backgroundImageView.kf.setImage(with: url)
+            } else {
+                self.backgroundImageView.image = nil
             }
         }
     }
@@ -85,5 +87,10 @@ class PaperTableCellView: NSTableCellView {
         if !self.trackingAreas.contains(trackingArea) {
             self.addTrackingArea(trackingArea)
         }
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.paper = nil
     }
 }
