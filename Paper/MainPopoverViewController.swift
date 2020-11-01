@@ -62,7 +62,6 @@ class MainPopoverViewController: NSViewController {
     }
 
     private func refreshCategoryView() {
-        debugPrint(#function)
 
         // first remove exist arrangedSubView
         for view in self.categoryStackView.subviews {

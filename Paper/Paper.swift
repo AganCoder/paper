@@ -10,13 +10,13 @@ import Foundation
 
 typealias Papers = [Paper]
 
-enum Stype: String, Codable {
-    case standard
-    case is4K = "4K"
-    case is5K = "5K"
-}
-
 struct Paper: Identifiable {
+
+    enum Stype: String, Codable {
+        case standard
+        case is4K = "4K"
+        case is5K = "5K"
+    }
 
     var id: String?
 
@@ -34,7 +34,7 @@ struct Paper: Identifiable {
 
     var from: String?
 
-    var stype: Stype?
+    var stype: Paper.Stype?
 
     var urls: [String: String]? = [:]
 

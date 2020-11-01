@@ -9,6 +9,20 @@
 import Cocoa
 import Kingfisher
 
+extension Paper.Stype {
+
+    var imageName: NSImage? {
+        switch self {
+        case .standard:
+            return nil
+        case .is4K:
+            return NSImage(named: NSImage.Name("4k_icon_normal24x24"))
+        case .is5K:
+            return NSImage(named: NSImage.Name("5k_icon_normal24x24"))
+        }
+    }
+}
+
 class PaperTableCellView: NSTableCellView {
 
     @IBOutlet weak var backgroundImageView: NSImageView!
@@ -33,12 +47,12 @@ class PaperTableCellView: NSTableCellView {
 
     var paper: Paper? {
         didSet {
-            debugPrint(paper)
             if let samll = paper?.urls?["small"], let url = URL(string: samll) {
                 self.backgroundImageView.kf.setImage(with: url)
             } else {
                 self.backgroundImageView.image = nil
             }
+
         }
     }
 
