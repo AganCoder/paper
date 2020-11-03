@@ -22,14 +22,14 @@
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="4K_icon_normal24x24" id="eD6-qz-ZaD"/>
                 </imageView>
                 <button hidden="YES" verticalHuggingPriority="750" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tkD-mO-5fC">
-                    <rect key="frame" x="72" y="68" width="142" height="32"/>
+                    <rect key="frame" x="72" y="67" width="142" height="33"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="32" id="4PC-2i-g5e"/>
                         <constraint firstAttribute="width" constant="142" id="EKw-vb-zl2"/>
                     </constraints>
-                    <buttonCell key="cell" type="inline" title="  Set Wallpaper" bezelStyle="inline" image="set wallpaper15x14" imagePosition="leading" alignment="center" imageScaling="proportionallyDown" inset="2" id="nIP-RF-Mmk">
+                    <buttonCell key="cell" type="inline" title="  Set Wallpaper" bezelStyle="inline" image="set wallpaper15x14" imagePosition="leading" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="nIP-RF-Mmk">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
+                        <font key="font" metaFont="smallSystemBold"/>
                     </buttonCell>
                     <color key="contentTintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                 </button>

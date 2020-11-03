@@ -12,20 +12,13 @@ import Kingfisher
 
 class MainPopoverViewController: NSViewController {
 
-    var columns: Columns = [] {
-        didSet {
-            if self.columns != oldValue {
-                self.refreshCategoryView()
-            }
-        }
-    }
-    var tableView: NSTableView!
+    var controller = MainPopoverController()
 
-    var papers: Papers = [] {
-        didSet {
-            self.tableView.reloadData()
-        }
-    }
+    var lineView: NSView!
+
+    private var cache: [TitleCategory: ImageTableViewController] = [:]
+
+    private var currentController: ImageTableViewController?
 
     private var categoryStackView: NSStackView!
 
@@ -38,48 +31,98 @@ class MainPopoverViewController: NSViewController {
 
         initSubviews()
 
-        AF.request("https://service.paper.meiyuan.in/api/v2/columns").responseJSON { (response) in
-            guard let data = response.data, response.error == nil else {
-                return
-            }
-            let decoder = JSONDecoder()
-            if case let .success(columns) = Result(catching: { try decoder.decode(Columns.self, from: data) }) {
-                self.columns = columns.filter { $0.available ?? false }
-            }
+        if let category = self.controller.selectedCategory {
+            updateImageViewController(to: category)
         }
 
-        AF.request("https://service.paper.meiyuan.in/api/v2/columns/flow/5efb6009ae089fd1b96ded19?page=1&per_page=20").responseJSON { (response) in
-            guard let data = response.data, response.error == nil else {
-                return
-            }
+        self.controller.loadColumns { self.refreshCategoryView() }
+    }
 
-            let decoder = JSONDecoder()
-            if case let .success(papers) = Result(catching: { try decoder.decode(Papers.self, from: data) }) {
-                self.papers = papers
-            }
+    private func updateImageViewController(to category: TitleCategory ) {
+
+        guard self.controller.selectedCategory != category || self.currentController == nil else {
+            return
         }
 
+        self.controller.selectedCategory = category
+
+        let controller = imageViewController(for: category)
+
+        self.currentController?.removeFromParent()
+        self.currentController?.view.removeFromSuperview()
+
+        self.addChild(controller)
+        self.view.addSubview(controller.view, positioned: .below, relativeTo: nil)
+        controller.view.frame = self.view.bounds
+        controller.view.autoresizingMask = [.width, .height]
+
+        self.currentController = controller
     }
 
     private func refreshCategoryView() {
 
-        // first remove exist arrangedSubView
         for view in self.categoryStackView.subviews {
             self.categoryStackView.removeArrangedSubview(view)
             view.removeFromSuperview()
         }
 
-        for (index, value) in self.columns.enumerated() where value.available ?? false {
-            let btn = NSButton(title: value.title!, target: self, action: #selector(categoryButtonDidTapped(sender:)))
+        for (index, category) in self.controller.categories.enumerated() {
+
+            let btn = TitleButton(title: category.title, target: self, action: #selector(categoryButtonDidTapped(sender:)))
             btn.tag = index
-            self.categoryStackView .addArrangedSubview(btn)
+            btn.isSelected = category == self.controller.selectedCategory
+
+            self.categoryStackView.addArrangedSubview(btn)
+        }
+
+        self.categoryStackView.layoutSubtreeIfNeeded()
+
+        updateLineViewConstrant()
+
+        self.lineView.isHidden = false
+    }
+
+    func imageViewController(for category: TitleCategory) -> ImageTableViewController {
+
+        if self.cache[category] == nil {
+
+            let vc = ImageTableViewController()
+
+            vc.controller = ImageTableController(category: category)
+
+            self.cache[category] = vc
+        }
+
+        return self.cache[category]!
+    }
+
+    @objc func categoryButtonDidTapped(sender: TitleButton) {
+
+        for view in self.categoryStackView.subviews {
+            guard let btn = view as? TitleButton else {
+                continue
+            }
+            btn.isSelected = btn == sender
+        }
+
+        updateLineViewConstrant()
+
+        if let category = self.controller.categories.object(at: sender.tag) {
+            updateImageViewController(to: category)
         }
     }
 
-    @objc func categoryButtonDidTapped(sender: NSButton) {
-        debugPrint(sender.tag)
+    private func updateLineViewConstrant() {
+        for view in self.categoryStackView.subviews {
+            if let btn = view as? TitleButton, btn.isSelected {
+                let width: CGFloat = 24.0
+                let frame = CGRect(x: btn.frame.midX - width / 2.0 , y: self.categoryStackView.frame.minY, width: width, height: 2)
+                self.lineView.frame = frame
+                break
+            }
+        }
     }
-
+    
     @objc func settingButtonDidTapped(sender: NSButton) {
         debugPrint("setting")
     }
@@ -119,39 +162,22 @@ class MainPopoverViewController: NSViewController {
         stackView.spacing    = 10
         self.categoryStackView = stackView
 
-        let scrollView = NSScrollView()
+        let lineView = NSView()
+        lineView.wantsLayer = true
+        lineView.layer?.backgroundColor = NSColor.white.cgColor
+        lineView.isHidden = true
+        self.lineView = lineView
 
-        let tableView = NSTableView()
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.backgroundColor = NSColor.main
-        tableView.register(NSNib(nibNamed: "PaperTableCellView", bundle: nil), forIdentifier: NSUserInterfaceItemIdentifier(rawValue: "PaperTableCellView"))
-        tableView.headerView = nil
-
-        self.tableView = tableView
-
-        let column = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: "rsenjoyer.github.io.Paper"))
-
-        tableView.addTableColumn(column)
-
-        scrollView.documentView = tableView
-
-        view.addSubview(scrollView)
         view.addSubview(brand)
         view.addSubview(setting)
         view.addSubview(save)
         view.addSubview(reload)
         view.addSubview(stackView)
+        view.addSubview(lineView)
 
         view.translatesAutoresizingMaskIntoConstraints = false
         view.widthAnchor.constraint(equalToConstant: 285).isActive = true
         view.heightAnchor.constraint(equalToConstant: 600).isActive = true
-
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        scrollView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        scrollView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        scrollView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
 
         brand.translatesAutoresizingMaskIntoConstraints = false
         brand.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -182,6 +208,8 @@ class MainPopoverViewController: NSViewController {
         stackView.rightAnchor.constraint(equalTo: brand.rightAnchor).isActive = true
         stackView.bottomAnchor.constraint(equalTo: brand.bottomAnchor, constant: -4).isActive = true
         stackView.heightAnchor.constraint(equalToConstant: 32).isActive = true
+
+        refreshCategoryView()
     }
 
     override func viewWillAppear() {
@@ -195,33 +223,9 @@ class MainPopoverViewController: NSViewController {
 
         // set background color
         self.view.wantsLayer = true
-        self.view.layer?.backgroundColor = NSColor.main.cgColor
+        self.view.layer?.backgroundColor = NSColor.background.cgColor
     }
 
 }
 
-extension MainPopoverViewController: NSTableViewDelegate, NSTableViewDataSource {
 
-    func numberOfRows(in tableView: NSTableView) -> Int {
-        return self.papers.count
-    }
-
-    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-
-        if let cellView = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier("PaperTableCellView"), owner: self) as? PaperTableCellView {
-
-            cellView.paper = self.papers[row]
-
-            return cellView
-        }
-        return NSView()
-    }
-
-    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        return 168.0
-    }
-
-    func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
-        return false
-    }
-}

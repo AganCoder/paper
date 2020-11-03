@@ -16,6 +16,7 @@ public enum Lang: String, Codable {
     case zhHant = "zh-hant"
 }
 
+
 public struct Column: Identifiable {
 
     public var id: String?
@@ -29,6 +30,26 @@ public struct Column: Identifiable {
     public var unsplashID: String?
 
     public var v: Int?
+
+    public var isDefault = false
+
+    static let hot: Column = {
+        var h = Column()
+        h.id = "popular"
+        h.title = "Hot"
+        h.available = true
+        h.isDefault = true
+        return h
+    }()
+
+    static let new: Column = {
+        var n = Column()
+        n.id = "latest"
+        n.title = "New"
+        n.available = true
+        n.isDefault = true
+        return n
+    }()
 }
 
 extension Column: Codable {
