@@ -16,8 +16,6 @@ class ImageTableViewController: NSViewController {
 
     override func loadView() {
         self.view = NSView()
-        self.view.wantsLayer = true
-        self.view.layer?.backgroundColor = NSColor.red.cgColor
     }
 
     override func viewDidLoad() {
@@ -46,12 +44,10 @@ class ImageTableViewController: NSViewController {
         scrollView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         scrollView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
 
-        self.controller?.loadImages(success: { (images) in
-            
+        _ = self.controller?.reload(completion: { _ in
             self.tableView.reloadData()
-
-        }, failure: { (error) in
-
+        }, failure: { error in
+            debugPrint("error")
         })
     }
 }
@@ -59,13 +55,13 @@ class ImageTableViewController: NSViewController {
 extension ImageTableViewController: NSTableViewDelegate, NSTableViewDataSource {
 
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return self.controller?.images.count ?? 0
+        return self.controller?.objects.count ?? 0
     }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
 
         if let cellView = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier("PaperTableCellView"), owner: self) as? PaperTableCellView {
-            cellView.paper = self.controller?.images[row]
+            cellView.paper = self.controller?.objects[row]
 
             return cellView
         }

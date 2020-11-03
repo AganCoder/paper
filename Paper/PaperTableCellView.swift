@@ -47,7 +47,7 @@ class PaperTableCellView: NSTableCellView {
 
     var paper: Paper? {
         didSet {
-            if let samll = paper?.urls?["small"], let url = URL(string: samll) {
+            if let regular = paper?.urls?["regular"], let url = URL(string: regular) {
                 self.backgroundImageView.kf.setImage(with: url)
             } else {
                 self.backgroundImageView.image = nil

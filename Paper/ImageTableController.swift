@@ -9,33 +9,58 @@
 import Cocoa
 import Alamofire
 
-class ImageTableController: NSObject {
+
+class ImageTableController: PageOffsetBasedObjectsController<Paper> {
 
     var column: Column?
 
     let category: TitleCategory
 
-    var images: [Paper] = []
+    var images: [Paper] {
+        return self.objects
+    }
 
     init(category: TitleCategory) {
+
         self.category = category
 
         super.init()
     }
 
     @discardableResult
-    func loadImages(success: @escaping([Paper]) -> Void, failure: Failure? = nil) -> Bool {
+    open override func loadObjects(currentPage index: Int, pageSize: Int, completion: @escaping (([Paper]) -> Void), failure: @escaping (Error) -> Void) -> Bool {
 
-        AF.request("https://service.paper.meiyuan.in/api/v2/columns/flow/5efb6009ae089fd1b96ded19?page=1&per_page=20").responseJSON { (response) in
+        var parameters: Parameters = [:]
+        parameters["page"] = index
+        parameters["per_page"] = pageSize
+
+        let url: String
+        switch self.category {
+        case .new:
+            parameters["order_by"] = "latest"
+            url = "https://api.unsplash.com/photos?client_id=1c0018090c0878f9556fba12d4b8ba060866de2733de1cc8486c720bf7c9a04e"
+
+        case .hot:
+            parameters["order_by"] = "popular"
+            url = "https://api.unsplash.com/photos?client_id=1c0018090c0878f9556fba12d4b8ba060866de2733de1cc8486c720bf7c9a04e"
+
+        case .custom:
+            url = "https://service.paper.meiyuan.in/api/v2/columns/flow/\(column?.id ?? "")"
+        }
+
+        AF.request(url, parameters: parameters).responseJSON { (response) in
+
             guard let data = response.data, response.error == nil else {
-                failure?(response.error!)
+                failure(response.error!)
                 return
             }
 
             if case let .success(images) = Result(catching: { try JSONDecoder().decode(Papers.self, from: data) }) {
-                self.images = images
+                self.objects = images
 
-                success(self.images)
+                debugPrint(images)
+
+                completion(images)
             }
         }
 
