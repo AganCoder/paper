@@ -21,21 +21,22 @@ class ImageTableViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let scrollView = NSScrollView()
         let tableView = NSTableView()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = NSColor.background
         tableView.register(NSNib(nibNamed: "PaperTableCellView", bundle: nil), forIdentifier: NSUserInterfaceItemIdentifier(rawValue: "PaperTableCellView"))
         tableView.headerView = nil
-
         let column = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: "gnoah89.github.io.Paper"))
-
         tableView.addTableColumn(column)
+
+        let scrollView = NSScrollView()
+        scrollView.backgroundColor = NSColor.background
         scrollView.documentView = tableView
+        scrollView.automaticallyAdjustsContentInsets = false
+        scrollView.contentInsets = NSEdgeInsets(top: 94, left: 0, bottom: 0, right: 0)
 
         self.tableView = tableView
-
         view.addSubview(scrollView)
 
         scrollView.translatesAutoresizingMaskIntoConstraints = false

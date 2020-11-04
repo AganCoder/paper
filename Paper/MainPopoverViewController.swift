@@ -24,6 +24,8 @@ class MainPopoverViewController: NSViewController {
 
     override func loadView() {
         self.view = NSView()
+        self.view.wantsLayer = true
+        self.view.layer?.backgroundColor = NSColor.main.cgColor
     }
 
     override func viewDidLoad() {
@@ -87,7 +89,7 @@ class MainPopoverViewController: NSViewController {
         if self.cache[category] == nil {
 
             let vc = ImageTableViewController()
-
+            
             vc.controller = ImageTableController(category: category)
 
             self.cache[category] = vc

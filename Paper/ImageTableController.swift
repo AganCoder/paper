@@ -9,6 +9,18 @@
 import Cocoa
 import Alamofire
 
+fileprivate extension TitleCategory {
+
+    var url: String {
+        switch self {
+        case .new, .hot:
+            return "https://api.unsplash.com/photos?client_id=1c0018090c0878f9556fba12d4b8ba060866de2733de1cc8486c720bf7c9a04e"
+        case .custom(let column):
+            return "https://service.paper.meiyuan.in/api/v2/columns/flow/\(column.id ?? "")"
+        }
+    }
+}
+
 
 class ImageTableController: PageOffsetBasedObjectsController<Paper> {
 
@@ -34,33 +46,27 @@ class ImageTableController: PageOffsetBasedObjectsController<Paper> {
         parameters["page"] = index
         parameters["per_page"] = pageSize
 
-        let url: String
         switch self.category {
         case .new:
             parameters["order_by"] = "latest"
-            url = "https://api.unsplash.com/photos?client_id=1c0018090c0878f9556fba12d4b8ba060866de2733de1cc8486c720bf7c9a04e"
 
         case .hot:
             parameters["order_by"] = "popular"
-            url = "https://api.unsplash.com/photos?client_id=1c0018090c0878f9556fba12d4b8ba060866de2733de1cc8486c720bf7c9a04e"
 
         case .custom:
-            url = "https://service.paper.meiyuan.in/api/v2/columns/flow/\(column?.id ?? "")"
+            break
         }
 
-        AF.request(url, parameters: parameters).responseJSON { (response) in
+        AF.request(self.category.url, parameters: parameters).responseJSON { (response) in
 
             guard let data = response.data, response.error == nil else {
                 failure(response.error!)
                 return
             }
 
-            if case let .success(images) = Result(catching: { try JSONDecoder().decode(Papers.self, from: data) }) {
-                self.objects = images
-
-                debugPrint(images)
-
-                completion(images)
+            if case let .success(objects) = Result(catching: { try JSONDecoder().decode(Papers.self, from: data) }) {
+                self.objects = objects
+                completion(objects)
             }
         }
 

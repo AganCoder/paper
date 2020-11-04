@@ -17,18 +17,19 @@ typealias Failure = (Error) -> Void
 enum TitleCategory {
     case new
     case hot
-    case custom(title: String)
+    case custom(colunm: Column)
 }
 
 extension TitleCategory {
+
     var title: String {
         switch self {
         case .new:
             return "New"
         case .hot:
             return "Hot"
-        case .custom(let title):
-            return title
+        case .custom(let column):
+            return column.title ?? ""
         }
     }
 }
@@ -47,13 +48,14 @@ extension TitleCategory: Equatable {
 }
 
 extension TitleCategory {
-    init?(column: Column?) {
-        guard let column = column, let title = column.title else { return nil }
 
-        self = .custom(title: title)
+    init?(column: Column?) {
+
+        guard let column = column else { return nil }
+
+        self = .custom(colunm: column)
     }
 }
-
 
 class MainPopoverController: NSObject {
 
@@ -85,8 +87,10 @@ class MainPopoverController: NSObject {
                 return
             }
 
-            if case let .success(columns) = Result(catching: { try JSONDecoder().decode(Columns.self, from: data) }) {
+            if case let .success(columns) = Result(catching: { try JSONDecoder().decode(Columns.self, from: data) }), columns.isEmpty == false {
+
                 self.columns = columns.filter { $0.available ?? false }
+
                 self.categories = columns.compactMap { TitleCategory(column: $0) }
 
                 self.selectedCategory = self.categories.first

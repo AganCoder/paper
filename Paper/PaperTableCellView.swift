@@ -23,6 +23,19 @@ extension Paper.Stype {
     }
 }
 
+extension Paper {
+
+    var miniUrl: String {
+
+        guard let raw = self.urls?["raw"], let component = URLComponents(string: raw) else {
+            return ""
+        }
+
+        let url = "http://papermini.meiyuan.in\(component.path)/mini"
+        return url
+    }
+}
+
 class PaperTableCellView: NSTableCellView {
 
     @IBOutlet weak var backgroundImageView: NSImageView!
@@ -47,7 +60,8 @@ class PaperTableCellView: NSTableCellView {
 
     var paper: Paper? {
         didSet {
-            if let regular = paper?.urls?["regular"], let url = URL(string: regular) {
+
+            if let urlString = paper?.miniUrl, let url = URL(string: urlString) {
                 self.backgroundImageView.kf.setImage(with: url)
             } else {
                 self.backgroundImageView.image = nil

@@ -14,7 +14,7 @@ open class PageOffsetBasedObjectsController<Object>: ObjectsControllerBase<Objec
         super.init()
     }
 
-    fileprivate var currentPage: Int = 0
+    fileprivate var currentPage: Int = 1
 
     open var pageSize: Int = 20
 
