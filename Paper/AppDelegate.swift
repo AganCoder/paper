@@ -8,7 +8,7 @@
 
 import Cocoa
 
-@NSApplicationMain
+@main
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
@@ -37,7 +37,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc private func onStatusItemDidClicked(_ statusBarButton: NSStatusBarButton) {
-
         if !self.popover.isShown {
             self.popover.show(relativeTo: statusBarButton.bounds, of: statusBarButton, preferredEdge: .minY)
         } else {
@@ -46,7 +45,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationWillResignActive(_ notification: Notification) {
-
         if self.popover.isShown {
             self.popover.close()
         }
