@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -93,20 +93,7 @@
 				A18137C88DADC7D562D85732 /* Pods-Paper.debug.xcconfig */,
 				13DA39FE8C4B21530B954FD6 /* Pods-Paper.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		8F0541A62551436D0043A415 /* ObjectsContainer */ = {
-			isa = PBXGroup;
-			children = (
-				8F0541A7255143870043A415 /* ObjectsController.swift */,
-				8F0541A9255144590043A415 /* AbstractObjectsController.swift */,
-				8F0541AB2551450E0043A415 /* ObjectsControllerBase.swift */,
-				8F0541AD255145890043A415 /* OffsetBasedObjectsController.swift */,
-				8F0541AF25514CA90043A415 /* PageOffsetBasedObjectsController.swift */,
-			);
-			name = ObjectsContainer;
 			sourceTree = "<group>";
 		};
 		8F5423D224DC42D3007C5B45 = {
@@ -130,26 +117,21 @@
 		8F5423DD24DC42D3007C5B45 /* Paper */ = {
 			isa = PBXGroup;
 			children = (
-				8F0541A62551436D0043A415 /* ObjectsContainer */,
 				8F5423DE24DC42D3007C5B45 /* AppDelegate.swift */,
-				8F5423E224DC42D5007C5B45 /* Assets.xcassets */,
-				8F5423E424DC42D5007C5B45 /* Main.storyboard */,
-				8F5423E724DC42D5007C5B45 /* Info.plist */,
-				8F5423E824DC42D5007C5B45 /* Paper.entitlements */,
 				8FBC234824E0497D0037D44E /* MainPopoverViewController.swift */,
 				8FB3C653255120CE00E61FA9 /* ImageTableViewController.swift */,
 				8FB3C65F255120EE00E61FA9 /* ImageTableController.swift */,
 				8FB3C6072550F08700E61FA9 /* MainPopoverController.swift */,
-				8FBC235824E151760037D44E /* NSColor+Extension.swift */,
 				8F88E944254EC874005457E0 /* TitleButton.swift */,
 				8FC80EBC25023D1700B90EEE /* PaperTableCellView.swift */,
 				8FC80EBA25023D0C00B90EEE /* PaperTableCellView.xib */,
-				8FE6926524E2EC4000867A44 /* API.md */,
 				8FA72C7024F8FF8C004129A2 /* Column.swift */,
 				8F8F894C25230AD800C98B1A /* Paper.swift */,
 				8F8F893C252303C400C98B1A /* URL.swift */,
 				8F8F894A2523048D00C98B1A /* User.swift */,
-				8FDF2F98255026420030A869 /* Array+Extension.swift */,
+				8FD4341E27313FF80022C07D /* ObjectsController */,
+				8FD43420273140800022C07D /* Extension */,
+				8FD4341F273140180022C07D /* Supporting Files */,
 			);
 			path = Paper;
 			sourceTree = "<group>";
@@ -160,6 +142,39 @@
 				471B85947EF6845035912F7C /* Pods_Paper.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8FD4341E27313FF80022C07D /* ObjectsController */ = {
+			isa = PBXGroup;
+			children = (
+				8F0541A7255143870043A415 /* ObjectsController.swift */,
+				8F0541A9255144590043A415 /* AbstractObjectsController.swift */,
+				8F0541AB2551450E0043A415 /* ObjectsControllerBase.swift */,
+				8F0541AD255145890043A415 /* OffsetBasedObjectsController.swift */,
+				8F0541AF25514CA90043A415 /* PageOffsetBasedObjectsController.swift */,
+			);
+			path = ObjectsController;
+			sourceTree = "<group>";
+		};
+		8FD4341F273140180022C07D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8F5423E224DC42D5007C5B45 /* Assets.xcassets */,
+				8F5423E824DC42D5007C5B45 /* Paper.entitlements */,
+				8F5423E724DC42D5007C5B45 /* Info.plist */,
+				8F5423E424DC42D5007C5B45 /* Main.storyboard */,
+				8FE6926524E2EC4000867A44 /* API.md */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8FD43420273140800022C07D /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				8FBC235824E151760037D44E /* NSColor+Extension.swift */,
+				8FDF2F98255026420030A869 /* Array+Extension.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

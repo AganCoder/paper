@@ -18,10 +18,7 @@ enum TitleCategory {
     case new
     case hot
     case custom(colunm: Column)
-}
-
-extension TitleCategory {
-
+    
     var title: String {
         switch self {
         case .new:
@@ -60,8 +57,10 @@ extension TitleCategory {
 class MainPopoverController: NSObject {
 
     var columns: Columns = []
-
-    var categories: [TitleCategory] = [.new, .hot] {
+    
+    private static var defaultCategories: [TitleCategory] = [.new, .hot]
+    
+    var categories = defaultCategories {
         didSet {
             guard let first = self.categories.first, first != self.selectedCategory else {
                 return
