@@ -39,9 +39,8 @@ open class OffsetBasedObjectsController<Object>: ObjectsControllerBase<Object> {
 
         fatalError("Not Implemented")
     }
-
+    
     open override func reload(completion: @escaping ([Object]) -> Void, failure: @escaping (Error) -> Void) -> Bool {
-
         return loadObjectAndCheckMore(atOffset: 0, limit: self.limit, completion: { (objects, hasMore) -> Void in
 
             self.objects = objects
