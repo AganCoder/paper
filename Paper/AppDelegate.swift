@@ -19,8 +19,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         let icon = NSImage(named: NSImage.Name("icon16*16"))
         icon?.isTemplate = true
-
-        statusItem.image = icon
+        
+        statusItem.button?.image = icon    
         statusItem.button?.target = self
         statusItem.button?.action = #selector(onStatusItemDidClicked(_:))
 

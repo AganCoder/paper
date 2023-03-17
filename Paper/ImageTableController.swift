@@ -14,7 +14,7 @@ fileprivate extension TitleCategory {
     var url: String {
         switch self {
         case .new, .hot:
-            return "https://api.unsplash.com/photos?client_id=1c0018090c0878f9556fba12d4b8ba060866de2733de1cc8486c720bf7c9a04e"
+            return "https://api.unsplash.com/photos?client_id=UxtTr6lOfauHu-Wk03HZfHZy9GIOHb7x54IStVRPwrU"
         case .custom(let column):
             return "https://service.paper.meiyuan.in/api/v2/columns/flow/\(column.id ?? "")"
         }
@@ -22,7 +22,7 @@ fileprivate extension TitleCategory {
 }
 
 
-class ImageTableController: PageOffsetBasedObjectsController<Paper> {
+class ImageTableController: PageLoadingObjectsController<Paper> {
 
     var column: Column?
 
@@ -56,20 +56,13 @@ class ImageTableController: PageOffsetBasedObjectsController<Paper> {
         case .custom:
             break
         }
-
-        AF.request(self.category.url, parameters: parameters).responseJSON { (response) in
-
-            guard let data = response.data, response.error == nil else {
-                failure(response.error!)
-                return
-            }
-
-            if case let .success(objects) = Result(catching: { try JSONDecoder().decode(Papers.self, from: data) }) {
-                self.objects = objects
-                completion(objects)
+        
+        AF.request(self.category.url, parameters: parameters).responseDecodable(of: Papers.self) { response in
+            if let values = response.value {
+                completion(values)
             }
         }
-
+        
         return true
     }
 }   

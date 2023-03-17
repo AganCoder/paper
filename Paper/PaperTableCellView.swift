@@ -25,19 +25,29 @@ extension Paper.Stype {
 
 extension Paper {
 
-    var miniUrl: String {
-
-        guard let raw = self.urls?["raw"], let component = URLComponents(string: raw) else {
+    var thumbUrl:String {
+        guard let thumb = self.urls?["thumb"] else {
             return ""
         }
-
-        let url = "http://papermini.meiyuan.in\(component.path)/mini"
-        return url
+        return thumb
+    }
+    
+    var downloadUrl: String {
+        guard let download = self.links?["download"] else {
+            return ""
+        }
+        return download
     }
 }
 
-class PaperTableCellView: NSTableCellView {
+protocol PaperTableCellViewDelegate: AnyObject {
+    func onSetWallPaperButton(in view: PaperTableCellView)
+}
 
+class PaperTableCellView: NSTableCellView {
+    
+    weak var delegate: PaperTableCellViewDelegate?
+    
     @IBOutlet weak var backgroundImageView: NSImageView!
 
     @IBOutlet weak var setWallPaperButton: NSButton! {
@@ -60,15 +70,18 @@ class PaperTableCellView: NSTableCellView {
 
     var paper: Paper? {
         didSet {
-            if let urlString = paper?.miniUrl, let url = URL(string: urlString) {
+            if let urlString = paper?.thumbUrl, let url = URL(string: urlString) {
                 self.backgroundImageView.kf.setImage(with: url)
             } else {
                 self.backgroundImageView.image = nil
             }
-
         }
     }
 
+    @IBAction func onSetWallPagerButton(_ sender: NSButton!) {
+        delegate?.onSetWallPaperButton(in: self)
+    }
+    
     override func mouseEntered(with event: NSEvent) {
         mouseEvent(for: true)
     }
@@ -110,7 +123,7 @@ class PaperTableCellView: NSTableCellView {
     override func updateTrackingAreas() {
         super.updateTrackingAreas()
 
-        let trackingArea = NSTrackingArea(rect: .zero, options: [.inVisibleRect, .activeAlways, .mouseEnteredAndExited, .mouseMoved], owner: self, userInfo: nil)
+        let trackingArea = NSTrackingArea(rect: self.frame, options: [.mouseEnteredAndExited, .activeAlways], owner: self, userInfo: nil)
         if !self.trackingAreas.contains(trackingArea) {
             self.addTrackingArea(trackingArea)
         }

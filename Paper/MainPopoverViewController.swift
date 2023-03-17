@@ -126,7 +126,6 @@ class MainPopoverViewController: NSViewController {
     }
     
     @objc func settingButtonDidTapped(sender: NSButton) {
-        debugPrint("setting")
     }
 
     @objc func saveButtonDidTapped(sender: NSButton) {
@@ -134,7 +133,7 @@ class MainPopoverViewController: NSViewController {
     }
 
     @objc func reloadButtonDidTapped(sender: NSButton) {
-        debugPrint("reload")
+        currentController?.reload()
     }
 
     private func initSubviews() {
